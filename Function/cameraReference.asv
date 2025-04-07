@@ -1,0 +1,41 @@
+% Compute the camera reference system using the calibration matrix (K),
+% rectifying homography matrix (H_rect), and Ellipses centers (c1_center, c2_center).
+function cameraReference(V, K, H_rect, c1_center, c2_center)
+    % Compute the localization matrix
+    localization = H_rect * inv(K);
+
+    disp('Localization Matrix:');
+    disp(localization);
+
+    i_pie = localization(:, 1);
+    j_pie = localization(:, 2);
+    o_pie = localization(:, 3);
+    
+    %Rotation Matrix
+    camera = [
+        i_pie, j_pie, cross(i_pie, j_pie), o_pie;
+        0,     0,     0,                   1;
+    ];
+
+    % Compute 3D coordinates of c1_center and c2_center in camera reference
+    c1_3d = camera * [c1_center(1); c1_center(2); 0; c1_center(3)];
+    c2_3d = camera * [c2_center(1); c2_center(2); 0; c2_center(3)];
+    v_3d = camera * [V(1); V(2); 0; V(3)];
+
+    % Normalize homogeneous coordinates
+    c1_3d = c1_3d ./ c1_3d(4);
+    c2_3d = c2_3d ./ c2_3d(4);
+    v_3d = v_3d ./ v_3d(4);
+
+    % Plotting
+    figure(1);
+    scatter3(c1_3d(1), c1_3d(2), c1_3d(3), 'filled')
+    text(c1_3d(1), c1_3d(2), c1_3d(3), 'C1\_center')
+    hold on
+    scatter3(c2_3d(1), c2_3d(2), c2_3d(3), 'filled')
+    text(c2_3d(1), c2_3d(2), c2_3d(3), 'C2\_center')
+    scatter3(0, 0, 0, 'r')
+    text(0, 0, 0, 'camera')
+    plot3([c1_3d(1), c2_3d(1)], [c1_3d(2), c2_3d(2)], [c1_3d(3), c2_3d(3)], 'color', 'b', 'LineWidth', 2)
+    xlabel('X'); ylabel('Y'); zlabel('Z')
+end
