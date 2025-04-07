@@ -1,0 +1,28 @@
+Computed Results:
+- Horizon line
+The computed and normalized horizon line h is equal to:
+h = [
+   -0.0003
+    0.0010
+    1.0000
+    ]
+- Useful vanishing points
+Two vanishing points have been calculated, the vanishing point V:
+V = 1.0e^{+03} * [
+    0.1217
+    6.5803
+    0.0010
+    ]
+The second one is P:
+P = 1.0e^{+03} *[
+    7.9689
+    5.4156
+    0.0010
+    ]
+- Calibration parameters
+The camera calibration matrix is:  
+K = 1.0e+03 *\begin{bmatrix}
+     7.3385         0              0.1217
+     0            1.6997           0.4730
+     0              0              0.0010
+     ]
